@@ -4,6 +4,7 @@ import os
 def task1(fn):
     f = open(fn, 'r', encoding='utf-8')
     txt = f.read()
+    f.close()
     init_lastname = re.findall('(?:(?: |^)([А-ЯЁ]\. [А-ЯЁ][-А-ЯЁа-яё]+?)[.,) \n])', txt)
     for name in init_lastname:
         print(name)
