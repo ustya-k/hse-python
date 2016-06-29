@@ -34,7 +34,8 @@ def task3(names,txt,fn):
         line = '(\. |^)(([А-ЯЁ].*?)?' + first_names[i] + ' ' + last_names[i] + '.*?(\.|;)( |\n|$))'
         res = re.search(line, txt)
         #c1 += 1
-        f = open(first_names[i] + ln, 'w', encoding='utf-8')
+        cl = './' + ln + '/' + first_names[i] + ' ' + ln + '.txt'
+        f = open(cl, 'w', encoding='utf-8')
         if res:
             f.write(res.group(2))
             #print(res.group(2))
