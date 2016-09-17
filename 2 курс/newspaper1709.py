@@ -13,6 +13,7 @@ def clean_txt(txt):
     txt = txt.replace('\t', '')
     txt = txt.replace('\r', '')
     #txt = txt.replace('', '+')
+    txt = re.sub('> *?<', '><', txt)
     txt = re.sub('( )+', ' ', txt)
     return txt
 
@@ -36,17 +37,14 @@ def main():
     
     
     html = clean_txt(html)
-    output_filename = 'titles.txt'
-    with open(output_filename, 'w', encoding='utf-8') as f:
-        f.write(html)
     titles = extract_titles('<div class="mp-mn-post">.*?">(.*?)<', html)
-    titles += extract_titles('<div class="d-blk-post-title">(.*?)<', html)
-    
+    titles += extract_titles('<div class="d-blk-post-title">(?:<.*?>)?(.*?)<', html)
+
     output_filename = 'titles.txt'
     with open(output_filename, 'w', encoding='utf-8') as f:
         txt = '\n'.join(titles)
+        txt = txt.replace('\n ', '\n')
         f.write(txt)
-    
 
 if __name__ == '__main__':
     main()
