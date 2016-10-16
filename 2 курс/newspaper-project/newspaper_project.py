@@ -12,15 +12,17 @@ def add_meta(au, ti, da, topic, url, html):
 def clean_the_html(html):
     text_re = re.search('<div class="page-content">(?:<p><b>(?:.*?)</b>)?((.|\s)*?)<div class="(?:f-)?comment-box">', html)
     text = text_re.group(1)
-    replace_symbols = {'&mdash;':'—', '&ndash;':'–', }
+    replace_symbols = {'&mdash;':'—', '&ndash;':'–', '&#1257;':'ө', '&#1199;':'ү', '&#1256;':'Ө', '&#1198;':'Ү', '&#1210;':'Һ', '&#1211;':'һ', '&hellip;':'…'}
     for sym in replace_symbols:
         text = text.replace(sym, replace_symbols[sym])
-    text = re.sub('</?p.*?>', '', text)
+    text = re.sub('</?(p|a).*?>', '', text)
     text = re.sub('<div(.|\s)*?</div>', '', text)
-    text = re.sub('<strong>С?СЫЛКИ ПО ТЕМЕ:.*', '', text)
-    tags = ['strong', 'b', 'div']
+    text = re.sub('\(Подробнее здесь.*?\)', '', text)
+    text = re.sub('<strong>С?СЫЛКИ ПО ТЕМЕ:(.|\s)*', '', text)
+    tags = ['strong', 'b', 'div', 'h2', 'h3', 'em', 'ul', 'li']
     for tag in tags:
         text = re.sub('</?' + tag + '>', '', text)
+    text = re.sub('(\s)+',r'\1', text)
     return text
 
 def get_html(link):
