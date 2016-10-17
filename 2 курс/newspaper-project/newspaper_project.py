@@ -4,6 +4,21 @@ import urllib.request
 
 checked_links = []
 
+def mystem_txt(path_orig):
+    path_fin = path_orig.replace('plain', 'mystem-plain')
+    print('hey')
+    line = 'C:\\ulanmedia\\mystem.exe ' + path_orig + ' ' + path_fin + ' -cid'
+    os.system(line)
+
+def mystem_xml(path_orig):
+    path_fin = path_orig.replace('plain', 'mystem-xml')
+    path_fin = path_fin.replace('txt', 'xml')
+    path_fin_dirs = re.sub('article\d*?\.xml', '', path_fin)
+    if not os.path.exists(path_fin_dirs):
+        os.makedirs(path_fin_dirs)
+    line = 'C:\\ulanmedia\\mystem.exe ' + path_orig + ' ' + path_fin + ' -cid --format xml'
+    os.system(line)
+
 def add_meta(au, ti, da, topic, url, html):
     meta_d = '@au %s\n@ti %s\n@da %s\n@topic %s\n@url %s\n' % (au, ti, da, topic, url)
     html = meta_d + html
@@ -12,7 +27,7 @@ def add_meta(au, ti, da, topic, url, html):
 def clean_the_html(html):
     text_re = re.search('<div class="page-content">(?:<p><b>(?:.*?)</b>)?((.|\s)*?)<div class="(?:f-)?comment-box">', html)
     text = text_re.group(1)
-    replace_symbols = {'&mdash;':'—', '&ndash;':'–', '&#1257;':'ө', '&#1199;':'ү', '&#1256;':'Ө', '&#1198;':'Ү', '&#1210;':'Һ', '&#1211;':'һ', '&hellip;':'…'}
+    replace_symbols = {'&mdash;':'—', '&ndash;':'–', '&#1257;':'ө', '&#1199;':'ү', '&#1256;':'Ө', '&#1198;':'Ү', '&#1210;':'Һ', '&#1211;':'һ', '&hellip;':'…', '&quot;':'"'}
     for sym in replace_symbols:
         text = text.replace(sym, replace_symbols[sym])
     text = re.sub('</?(p|a).*?>', '', text)
@@ -50,19 +65,37 @@ def use_html(html):
         topic = ''
     meta_line = '%s\t\t\t\t%s\t%s\tпублицистика\t\t\t%s\t\tнейтральный\tн-возраст\tн-уровень\tреспубликанская\t%s\tUlanMedia\t\t%s\tгазета\tРоссия\tБурятия\tru'
     #check existance of folders
-    file_path = '.\\%s\\%s' % (year, month)
+    file_path = '.\\plain\\%s\\%s' % (year, month)
     if not os.path.exists(file_path):
         os.makedirs(file_path)
     #add file
-    text = clean_the_html(html)
-    text = add_meta(author, title, date_with_dots, topic, url, text)
     article_number = len(os.listdir(file_path)) + 1
-    article_path = file_path + '\\article' + str(article_number) + '.txt'
+    text = clean_the_html(html)
+
+    article_path = file_path + '\\article' + str(article_number) + '.txt' 
     article = open(article_path, 'w', encoding = 'utf-8')
     #print(article_path)
     article.write(text)
     article.close()
+    
+    article_path_mystem_txt = file_path.replace('plain', 'mystem-plain')
+    print('0')
+    if not os.path.exists(article_path_mystem_txt):
+        os.makedirs(article_path_mystem_txt)
+    print('1')
+    article_path_mystem_txt = article_path.replace('plain', 'mystem-plain')
+    print('2')
+    mystem_xml(article_path)
+    mystem_txt(article_path)
+    print('3')
+    
+    text = add_meta(author, title, date_with_dots, topic, url, text)
     #table
+    
+    article = open(article_path, 'w', encoding = 'utf-8')
+    #print(article_path)
+    article.write(text)
+    article.close()
     
 def crawl(depth, crawled_page):
     search_line = '<a href="(http://ulanmedia.ru/.*?\.html)"'
