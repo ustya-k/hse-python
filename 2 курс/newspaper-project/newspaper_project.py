@@ -118,7 +118,7 @@ def main():
     url = 'http://ulanmedia.ru/'
     main_page = get_html(url)
     checked_links.append(url)
-    crawl(0, main_page)
+    crawl(7, main_page)
     meta_table.close()
     #print(checked_links)
 
