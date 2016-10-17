@@ -3,10 +3,10 @@ import os
 import urllib.request
 
 checked_links = []
+meta_table = open('metadata.csv', 'a', encoding = 'utf-8')
 
 def mystem_txt(path_orig):
     path_fin = path_orig.replace('plain', 'mystem-plain')
-    print('hey')
     line = 'C:\\ulanmedia\\mystem.exe ' + path_orig + ' ' + path_fin + ' -cid'
     os.system(line)
 
@@ -63,7 +63,7 @@ def use_html(html):
         topic = meta_topic.group(1)
     else:
         topic = ''
-    meta_line = '%s\t\t\t\t%s\t%s\tпублицистика\t\t\t%s\t\tнейтральный\tн-возраст\tн-уровень\tреспубликанская\t%s\tUlanMedia\t\t%s\tгазета\tРоссия\tБурятия\tru'
+    meta_line = '%s\t\t\t\t%s\t%s\tпублицистика\t\t\t%s\t\tнейтральный\tн-возраст\tн-уровень\tреспубликанская\t%s\tUlanMedia\t\t%s\tгазета\tРоссия\tРеспублика Бурятия\tru'
     #check existance of folders
     file_path = '.\\plain\\%s\\%s' % (year, month)
     if not os.path.exists(file_path):
@@ -72,22 +72,23 @@ def use_html(html):
     article_number = len(os.listdir(file_path)) + 1
     text = clean_the_html(html)
 
-    article_path = file_path + '\\article' + str(article_number) + '.txt' 
+    article_path = file_path + '\\article' + str(article_number) + '.txt'
+    meta_table.write(meta_line % (article_path, title, date_with_dots, topic, url, year))
     article = open(article_path, 'w', encoding = 'utf-8')
     #print(article_path)
     article.write(text)
     article.close()
     
     article_path_mystem_txt = file_path.replace('plain', 'mystem-plain')
-    print('0')
+    
     if not os.path.exists(article_path_mystem_txt):
         os.makedirs(article_path_mystem_txt)
-    print('1')
+        
     article_path_mystem_txt = article_path.replace('plain', 'mystem-plain')
-    print('2')
+
     mystem_xml(article_path)
     mystem_txt(article_path)
-    print('3')
+    
     
     text = add_meta(author, title, date_with_dots, topic, url, text)
     #table
@@ -113,11 +114,12 @@ def crawl(depth, crawled_page):
                 checked_links.append(link)
                 
 def main():
-    meta_table = open('metadata.csv', 'a', encoding = 'utf-8')
+    meta_table.write('path\tauthor\tsex\tbirthday\theader\tcreated\tsphere\tgenre_fi\ttype\ttopic\tchronotop\tstyle\taudience_age\taudience_level\taudience_size\tsource\tpublication\tpublisher\tpubl_year\tmedium\tcountry\tregion\tlanguage\n')
     url = 'http://ulanmedia.ru/'
     main_page = get_html(url)
     checked_links.append(url)
     crawl(0, main_page)
+    meta_table.close()
     #print(checked_links)
 
 
