@@ -63,7 +63,7 @@ def use_html(html):
         topic = meta_topic.group(1)
     else:
         topic = ''
-    meta_line = '%s\t\t\t\t%s\t%s\tпублицистика\t\t\t%s\t\tнейтральный\tн-возраст\tн-уровень\tреспубликанская\t%s\tUlanMedia\t\t%s\tгазета\tРоссия\tРеспублика Бурятия\tru'
+    meta_line = '%s\t\t\t\t%s\t%s\tпублицистика\t\t\t%s\t\tнейтральный\tн-возраст\tн-уровень\tреспубликанская\t%s\tUlanMedia\t\t%s\tгазета\tРоссия\tРеспублика Бурятия\tru\n'
     #check existance of folders
     file_path = '.\\plain\\%s\\%s' % (year, month)
     if not os.path.exists(file_path):
