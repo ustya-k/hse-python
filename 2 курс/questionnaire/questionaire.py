@@ -47,7 +47,10 @@ def create_table(answers):
         json_txt = f.read()
     json_str = json.dumps(answers)
     with open('templates/answers.json', 'w', encoding = 'utf-8') as f:
-        f.write(json_txt[:-1] + json_str + ',]')
+        if json_txt != '[]':
+            f.write(json_txt[:-1] + ',' + json_str + ']')
+        else:
+            f.write('[' + json_str + ']')
 
 
 def get_table():
