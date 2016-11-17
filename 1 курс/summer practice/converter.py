@@ -158,7 +158,7 @@ def main():
     with open('test_volumes\\test_volumes_table.csv', 'r', encoding = 'utf-8') as original_table_file:
         original_table = original_table_file.readlines()
     path_to_new_volumes = 'test_volumes_output' + os.sep
-    create_directories(1, 1, path_to_new_volumes)
+    create_directories(1, 4, path_to_new_volumes)
     for root, dirs, files in os.walk(path_to_original_volumes):
         for volume in dirs:
             path_to_the_volume = root + os.sep + volume
