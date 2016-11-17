@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Анкета</title>
+</head>
+<body>
+<a href="{{ search }}">Поиск по ответам</a> <br>
+<a href="{{ url_table }}">Таблица с полученными данными</a> <br>
+<a href="{{ url_json }}">json с ответами</a>
+<h2>Лексико-типологическая анкета</h2>
+<form>
+    <label>Возраст: <input type="text" name="age"></label><br>
+	<label>Язык заполнения анкеты: <input type="text" name="language"> </label><br>
+	<label> <input type="checkbox" name="bilingual"> Я билингв</label><br>
+	<label>Второй родной язык (если нет, оставить пустым): <input type="text" name="second_language"></label><br>
+	<h3>Назовите действия на картинках. Для каждой выберите наиболее подходящее выражение по вашему мнению.</h3>
+	<p>Пример:</p>
+	<img src="static/crossed_arms.gif"  height=150 width=243 /> <br> скрестить руки на груди <br>
+	<p align="center">
+	{% for action_name in names %}
+    <img src="{{url_for('static', filename=action_name+'.gif')}}" height=150 width=243 /> <br> <label> <input type="text" name="{{ action_name }}"> </label><br><br>
+    {% endfor %}
+    <input type="submit" value="Отправить">
+	</p>
+</form>
+</body>
+</html>
