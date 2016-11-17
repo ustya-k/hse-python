@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Статистика</title>
+</head>
+<body>
+<table border="1">
+<caption>Полученные данные</caption>
+  <tr>
+    <td>Возраст</td>
+	<td>Язык</td>
+	<td>Билингв</td>
+	<td>Второй родной язык</td>
+	{% for action_name in names %}
+    <td><img src="{{url_for('static', filename=action_name+'.gif')}}" height=50 width=81 alt="{{ action_name }}"/> </td>
+    {% endfor %}
+  </tr>
+  {% for answer in data %}
+	<tr>
+	{% for tag in tags %}
+		<td>
+		{% if tag in answer %}
+			{{ answer[tag] }}
+		{% endif %}
+		</td>
+	{% endfor %}
+	</tr>
+  {% endfor %}
+</table>
+<a href="{{ url_home }}">Вернуться на главную.</a>
+</body>
+</html>
