@@ -6,12 +6,15 @@
 </head>
 <body>
 
-<h1>Результаты поиска для {{ eng_word }}</h1>
+<h1>Результаты поиска для <i>{{ eng_word }}</i></h1>
 
+<ol>
 {% for transl in translations %}
-	{{ transl | safe }}
+	<li>{{ transl | safe }} </li>
 {% endfor %}
+</ol>
 
+<br>
 <a href="{{ url_search }}">Продолжить поиск.</a>
 </body>
 </html>
