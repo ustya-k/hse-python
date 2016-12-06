@@ -14,10 +14,11 @@ def get_links(url, number_of_links):
     except:
         return links
 
-
+'''
 def open_text():
     with open('yandex_news.html', 'r', encoding='utf-8') as f:
         return f.read()
+'''
 
 def get_html(link):
     req = urllib.request.Request(link)
@@ -71,10 +72,7 @@ def clean_block(div_block):
     div_block = div_block.replace('</div>', ' ')
     div_block = html.unescape(div_block)
     div_block = re.sub('<!--.*?-->', '', div_block, flags=re.DOTALL)
-    div_block = re.sub('</?(p|a|span|ul|hr|img|h1|noscript|link|li|meta|section|iframe).*?>', '', div_block)
-    tags = ['strong', 'b', 'div', 'h2', 'h3', 'em', 'ul', 'br']
-    for tag in tags:
-        div_block = re.sub('</?' + tag + '>', '', div_block)
+    div_block = re.sub('</?.*?>', '', div_block, flags=re.DOTALL)
     div_block = re.sub('<br/>', '', div_block)    
     div_block = re.sub('(\s)+',r'\1', div_block)
     return div_block
@@ -84,7 +82,7 @@ def make_a_set(text):
     arr = text.split()
     dict_of_words = {}
     for word in arr:
-        w = word.strip('"!.,?:;\'\\/()[]0123456789—-–').lower()
+        w = word.strip('"!.,?:;\'\\/()[]0123456789—-–»«').lower()
         if w != '' and w in dict_of_words:
             dict_of_words[w] += 1
         elif w != '':
@@ -121,25 +119,28 @@ def main():
     words_intersection = ''
     set_of_words_not_once = ''
     for link in links:
-        #print(str(get_texts(link)))
-        dict_of_words = get_set_of_words(link)
-        set_of_words_not_once_dict = {word for word in dict_of_words if dict_of_words[word] > 1}
-        set_of_words = set(dict_of_words)
-        if words_intersection != '':
-            words_intersection = words_intersection.intersection(set_of_words)
-            part_1 = set_of_words.difference(words_union)
-            #print(words_sym_difference, set_of_words)
-            part_2 = words_sym_difference.difference(set_of_words)
-            words_sym_difference = part_1.union(part_2)
-            words_union.update(set_of_words)
-        else:
-            words_intersection = set_of_words
-            words_union = set_of_words
-            words_sym_difference = set_of_words
-        if set_of_words_not_once != '':
+        try:
+            #print(str(get_texts(link)))
+            dict_of_words = get_set_of_words(link)
+            set_of_words_not_once_dict = {word for word in dict_of_words if dict_of_words[word] > 1}
+            set_of_words = set(dict_of_words)
+            if words_intersection != '':
+                words_intersection = words_intersection.intersection(set_of_words)
+                part_1 = set_of_words.difference(words_union)
+                #print(words_sym_difference, set_of_words)
+                part_2 = words_sym_difference.difference(set_of_words)
+                words_sym_difference = part_1.union(part_2)
+                words_union.update(set_of_words)
+            else:
+                words_intersection = set_of_words
+                words_union = set_of_words
+                words_sym_difference = set_of_words
+            if set_of_words_not_once != '':
                 set_of_words_not_once.update(set_of_words_not_once_dict)
-        else:
+            else:
                 set_of_words_not_once = set_of_words_not_once_dict
+        except:
+            print('something\'s not ok with %s' % (link))
     with open('intersection.txt', 'w', encoding = 'utf-8') as f:
         f.write(sorted_text_from_set(words_intersection))
     arr_sym_dif = list(words_sym_difference)
