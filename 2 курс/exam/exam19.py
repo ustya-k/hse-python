@@ -56,7 +56,7 @@ def get_rus_nouns(filename):
         f.write('\n'.join(adyg_words))
     path_fin = filename_rus.replace('.txt','_mystem.txt')
     line = 'mystem.exe ' + filename_rus + ' ' + path_fin + ' -in'
-    #os.system(line)
+    os.system(line)
     adyg_words_morph = get_adyg_words(path_fin)
     regex = '[{|][^|}?]*?(|[^?])=[^|}]*?им[^|}]*?ед[^|}]*?[|}]'
     rus_nouns = []
@@ -79,7 +79,7 @@ def task3(words):
     words_morph = get_adyg_words(filename)
     words = set(words)
     text = set()
-    line = 'INSERT INTO rus_words wordform VALUES "%s" lemma VALUES "%s"'
+    line = 'INSERT INTO rus_words (wordform, lemma) VALUES ("%s","%s")'
     regex = '[{|]([^|}?]*?)=[^|}]*?им[^|}]*?ед[^|}]*?[|}]'
     regex2 = '[{|]([^|}?=]+?)=.*?[|}]'
     #regex = '[{|]([^|}?]*?)(|[^?])=[^|}]*?им[^|}]*?ед[^|}]*?[|}]'
@@ -90,6 +90,7 @@ def task3(words):
             for i, lemma in enumerate(lemmas):
                 lm = lemma
                 if lm == '':
+                    '''
                     ch = 0
                     t = i - 1
                     while ch == 0 and t >= 0:
@@ -98,6 +99,7 @@ def task3(words):
                         else:
                             lm = lemmas[t]
                             ch = 1
+                    '''
                     if lm == '':
                         lms = re.findall(regex2, w)
                         #print(lms)
