@@ -80,13 +80,22 @@ def task3(words):
     words = set(words)
     text = ''
     line = 'INSERT INTO rus_words wordform VALUES "%s" lemma VALUES "%s"\n'
-    regex = '[{|]([^|}?]*?)(?:|[^?])=[^|}]*?им[^|}]*?ед[^|}]*?[|}]'
+    regex = '[{|]([^|}?]*?)(|[^?])=[^|}]*?им[^|}]*?ед[^|}]*?[|}]'
     for w in words_morph:
         word = re.search('(.*?){',w).group(1)
         if word in words:
             lemmas = re.findall(regex, w)
-            for lemma in lemmas:
-                text += line % (word, lemma)      
+            for i, lemma in enumerate(lemmas):
+                lm = lemma[0] + lemma[1]
+                if lm == '':
+                    ch = 0
+                    t = i - 1
+                    while ch == 0:
+                        if lemmas[t][0] == '':
+                            t -= 1
+                        else:
+                            lm = lemmas[t][0] + lemmas[t][1]
+                text += line % (word, lm)      
     with open('sql.txt', 'w', encoding='utf-8') as f:
         f.write(text)
 
