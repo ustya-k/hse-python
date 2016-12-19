@@ -78,10 +78,10 @@ def task3(words):
     filename = 'adyghe-unparsed-words_r_mystem.txt'
     words_morph = get_adyg_words(filename)
     words = set(words)
-    text = ''
-    line = 'INSERT INTO rus_words wordform VALUES "%s" lemma VALUES "%s"\n'
+    text = set()
+    line = 'INSERT INTO rus_words wordform VALUES "%s" lemma VALUES "%s"'
     regex = '[{|]([^|}?]*?)=[^|}]*?им[^|}]*?ед[^|}]*?[|}]'
-    regex2 = '[{|]([^|}?]+?)=.*?[|}]'
+    regex2 = '[{|]([^|}?=]+?)=.*?[|}]'
     #regex = '[{|]([^|}?]*?)(|[^?])=[^|}]*?им[^|}]*?ед[^|}]*?[|}]'
     for w in words_morph:
         word = re.search('(.*?){',w).group(1)
@@ -100,14 +100,15 @@ def task3(words):
                             ch = 1
                     if lm == '':
                         lms = re.findall(regex2, w)
+                        #print(lms)
                         for l in lms:
                             regex3 = '[{|]' + l + '=.*?(|=.*?)*?|=[^|}]*?им[^|}]*?ед'
-                            if re.search(regex3, l):
+                            if re.search(regex3, w):
                                 lm = l
                                 break
-                text += line % (word, lm)      
+                text |= {line % (word, lm)}      
     with open('sql.txt', 'w', encoding='utf-8') as f:
-        f.write(text)
+        f.write('\n'.join(text))
 
 
 def main():
