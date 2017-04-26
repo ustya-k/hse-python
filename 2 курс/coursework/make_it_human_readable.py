@@ -30,6 +30,7 @@ def main():
 
 	topics = table[0].split(';')
 	topics = [t.replace('topic_','') for t in topics]
+	topics[-1] = topics[-1][:-1]
 	table.remove(table[0])
 	
 	out = 'text;topic;predicted;extra;not_predicted\n'
