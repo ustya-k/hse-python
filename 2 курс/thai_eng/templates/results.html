@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Результаты поиска</title>
+</head>
+<body>
+
+<h1>Результаты поиска для <i>{{ eng_word }}</i></h1>
+
+<ol>
+{% for transl in translations %}
+	<li>{{ transl | safe }} </li>
+{% endfor %}
+</ol>
+
+<br>
+<a href="{{ url_search }}">Продолжить поиск.</a>
+</body>
+</html>

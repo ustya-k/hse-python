@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Результат поиска</title>
+</head>
+<body>
+<table border="1">
+  <tr>
+    <td>Язык</td>
+	<td>Перевод</td>
+  </tr>
+  {% for lang, translations in lang_transl.items() %}
+  <tr>
+	<td>{{ lang }}</td>
+	<td>{% for transl in translations %}
+	{{ transl }} <br>
+	{% endfor %}
+	</td>
+  </tr>
+  {% endfor %}
+</table>
+<a href="{{ url_home }}">Вернуться на главную.</a> <br>
+<a href="{{ url_search }}">Продолжить поиск.</a>
+</body>
+</html>

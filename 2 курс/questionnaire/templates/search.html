@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Поиск по полученным ответам</title>
+</head>
+<body>
+<a href="{{ url }}">Вернуться на главную.</a>
+<h1>Поиск всех данных ответов для жеста</h1>
+
+<form action="/results">
+{% for action_name in names %}
+<input type="radio" name="answer" value="{{ action_name }}"> <img src="{{url_for('static', filename=action_name+'.gif')}}" height=150 width=243 /> 
+<br>
+{% endfor %}
+<input type="submit" value="Искать">
+</form>
+
+</body>
+
+</html>
