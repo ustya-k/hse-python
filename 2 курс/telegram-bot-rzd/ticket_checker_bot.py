@@ -5,6 +5,7 @@ import telebot
 import conf
 import flask
 from telebot import types
+from requests.compat import quote
 
 
 WEBHOOK_URL_BASE = "https://{}:{}".format(conf.WEBHOOK_HOST, conf.WEBHOOK_PORT)
@@ -104,7 +105,7 @@ def follow_the_train(message):
 
 def get_city_id(city):
     headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36'}
-    req = 'https://pass.rzd.ru/suggester?stationNamePart=%s&lang=ru&lat=0&compactMode=y' % city.upper()
+    req = 'https://pass.rzd.ru/suggester?stationNamePart=%s&lang=ru&lat=0&compactMode=y' % quote(city.upper())
     city = city.upper()
     resp = requests.get(req, headers=headers)
 
@@ -119,7 +120,7 @@ def get_info(city0, city1, date):
     headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36'}
     id0 = get_city_id(city0)
     id1 = get_city_id(city1)
-    req1 = 'https://pass.rzd.ru/timetable/public/ru?STRUCTURE_ID=735&layer_id=5371&dir=0&tfl=3&checkSeats=0&st0='+city0+'&code0='+id0+'&dt0='+date+'&st1='+city1+'&code1='+id1+'&dt1='+date
+    req1 = 'https://pass.rzd.ru/timetable/public/ru?STRUCTURE_ID=735&layer_id=5371&dir=0&tfl=3&checkSeats=0&st0=%s&code0=%s&dt0=%s&st1=%s&code1=%s&dt1=%s' % (quote(city0), id0, date, quote(city1), id1, date)
 
     res = requests.get(req1, headers=headers, timeout=10)
     r = json.loads(res.text)
@@ -127,7 +128,7 @@ def get_info(city0, city1, date):
 
     time.sleep(2)
 
-    req2 = 'https://pass.rzd.ru/timetable/public/ru?STRUCTURE_ID=735&layer_id=5371&dir=0&tfl=3&checkSeats=0&st0='+city0+'&code0='+id0+'&dt0='+date+'&st1='+city1+'&code1='+id1+'&dt1='+date+'&rid='+rid
+    req2 = 'https://pass.rzd.ru/timetable/public/ru?STRUCTURE_ID=735&layer_id=5371&dir=0&tfl=3&checkSeats=0&st0=%s&code0=%s&dt0=%s&st1=%s&code1=%s&dt1=%s&rid=%s' % (quote(city0), id0, date, quote(city1), id1, date, rid)
 
     res_out = json.loads(requests.get(req2, cookies=res.cookies, headers=headers, timeout=10).text)
 
