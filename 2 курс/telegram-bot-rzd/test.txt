@@ -1,1 +1,0 @@
-http://pass.rzd.ru/suggester?stationNamePart=ЗЕЛЕНЫЙ ДОЛ&lang=ru&lat=0&compactMode=y
