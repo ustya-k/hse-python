@@ -19,7 +19,7 @@ bot.set_webhook(url=WEBHOOK_URL_BASE+WEBHOOK_URL_PATH)
 
 
 keyboard = types.ReplyKeyboardMarkup(row_width=1)
-btns_names = ['Плацкартный', 'Купе', 'Общий', 'СВ', 'Люкс']
+btns_names = ['Плацкартный', 'Купе', 'Общий', 'СВ', 'Люкс', 'Сидячий']
 btns = []
 for btn in btns_names:
     keyboard.add(types.KeyboardButton(btn))
