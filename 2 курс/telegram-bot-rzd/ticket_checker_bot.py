@@ -27,6 +27,7 @@ for btn in btns_names:
 
 train = {'city0': None, 'city1': None, 'date': None, 'number': None, 'car_type': None, 'options': None}
 
+coms = ['start', 'help', 'new_search']
 
 app = flask.Flask(__name__)
 
@@ -35,8 +36,8 @@ app = flask.Flask(__name__)
 def send_welcome(message):
     bot.send_message(message.chat.id, "Здравствуйте! Это бот, который каждые две минуты проверяет, появились ли нужные вам билеты.")
     bot.send_message(message.chat.id, "Если что-то появляется, он сразу же оповещает вас об этом.")
-    sent = bot.send_message(message.chat.id, "Иначе он будет писать раз в час, что ничего не появилось.")
-    bot.register_next_step_handler(sent, new_search)
+    bot.send_message(message.chat.id, "Иначе он будет писать раз в час, что ничего не появилось.")
+    bot.send_message(message.chat.id, "Новый поиск вы можете начать командой /new_search")
 
 
 @bot.message_handler(commands=['new_search'])
@@ -52,66 +53,74 @@ def city1(message):
 
 
 def date_out(message):
-    train['city1'] = message.text
-    sent = bot.send_message(message.chat.id, "Введите дату отправления в формате dd.mm.yyyy")
-    bot.register_next_step_handler(sent, show_options)
+    if message.text[1:] not in coms:
+        train['city1'] = message.text
+        sent = bot.send_message(message.chat.id, "Введите дату отправления в формате dd.mm.yyyy")
+        bot.register_next_step_handler(sent, show_options)
 
 
 def show_options(message):
-    train['date'] = message.text
-    try:
-        train['options'] = get_info(train['city0'], train['city1'], train['date'])
-        bot.send_message(message.chat.id, "Время отправления-время прибытия номер поезда")
-        for option in train['options']:
-            bot.send_message(message.chat.id, '%s-%s %s' % (option['time0'], option['time1'], option['number']))
-        sent = bot.send_message(message.chat.id, "Введите номер интересующего вас поезда")
-        bot.register_next_step_handler(sent, type_choice)
-    except:
-        bot.send_message(message.chat.id, "Что-то пошло не так, попробуйте ещё раз /new_search")
-
-
-
-def type_choice(message):
-    train['number'] = message.text
-    sent = bot.send_message(message.chat.id, 'Выберите тип вагона', reply_markup=keyboard)
-    bot.register_next_step_handler(sent, follow_the_train)
-
-
-def follow_the_train(message):
-    train['car_type'] = message.text
-    count = 0
-    good = False
-    while not good:
-        for option in train['options']:
-            if option['number'] == train['number']:
-                for i in option['cars']:
-                    if i['typeLoc'] == train['car_type']:
-                        good = True
-                        bot.send_message(message.chat.id, 'Ура! Появились билеты.')
-                        bot.send_message(message.chat.id, 'Всего %s' % i['freeSeats'])
-                        break
-        if count == 0 and not good:
-            bot.send_message(message.chat.id, 'За прошедший час ничего не появилось.')
-            count = 30
-        count -= 1
-        time.sleep(120)
+    if message.text[1:] not in coms:
+        train['date'] = message.text
         try:
             train['options'] = get_info(train['city0'], train['city1'], train['date'])
+            bot.send_message(message.chat.id, "Время отправления-время прибытия номер поезда")
+            for option in train['options']:
+                bot.send_message(message.chat.id, '%s-%s %s' % (option['time0'], option['time1'], option['number']))
+            sent = bot.send_message(message.chat.id, "Введите номер интересующего вас поезда")
+            bot.register_next_step_handler(sent, type_choice)
         except:
             bot.send_message(message.chat.id, "Что-то пошло не так, попробуйте ещё раз /new_search")
 
-    bot.send_message(message.chat.id, 'Теперь вы можете выбрать другой поезд /new_search')
+
+def type_choice(message):
+    if message.text[1:] not in coms:
+        train['number'] = message.text
+        sent = bot.send_message(message.chat.id, 'Выберите тип вагона', reply_markup=keyboard)
+        bot.register_next_step_handler(sent, follow_the_train)
+
+
+def follow_the_train(message):
+    if message.text[1:] not in coms:
+        train['car_type'] = message.text
+        count = 0
+        good = False
+        while not good:
+            for option in train['options']:
+                if option['number'] == train['number']:
+                    for i in option['cars']:
+                        if i['typeLoc'] == train['car_type']:
+                            good = True
+                            bot.send_message(message.chat.id, 'Ура! Появились билеты.')
+                            bot.send_message(message.chat.id, 'Всего %s' % i['freeSeats'])
+                            break
+            if count == 0 and not good:
+                bot.send_message(message.chat.id, 'За прошедший час ничего не появилось.')
+                count = 30
+            count -= 1
+            if not good:
+                time.sleep(118)
+                try:
+                    train['options'] = get_info(train['city0'], train['city1'], train['date'])
+                except:
+                    bot.send_message(message.chat.id, "Что-то пошло не так, попробуйте ещё раз /new_search")
+
+        bot.send_message(message.chat.id, 'Теперь вы можете выбрать другой поезд /new_search')
 
 
 def get_city_id(city):
     headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36'}
     req = 'https://pass.rzd.ru/suggester?stationNamePart=%s&lang=ru&lat=0&compactMode=y' % quote(city.upper())
+
     city = city.upper()
     resp = requests.get(req, headers=headers)
 
     rJson = json.loads(resp.text)
     for item in rJson:
         if item['n'] == city:
+            return str(item['c'])
+    for item in rJson:
+        if city in item['n']:
             return str(item['c'])
     return None
 
