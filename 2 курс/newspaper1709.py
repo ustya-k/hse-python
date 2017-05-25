@@ -23,13 +23,6 @@ def extract_titles(search_pattern, txt):
     return titles
 
 def main():
-    '''
-    url = 'http://ulanmedia.ru/'
-    user_agent = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'
-    req = urllib.request.Request(url, headers={'User-Agent':user_agent})
-    with urllib.request.urlopen(req) as response:
-        html = response.read().decode('utf-8')
-    '''
     url = 'http://ulanmedia.ru/'
     req = urllib.request.Request(url)
     with urllib.request.urlopen(req) as response:

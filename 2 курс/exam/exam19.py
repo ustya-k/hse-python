@@ -90,16 +90,14 @@ def task3(words):
             for i, lemma in enumerate(lemmas):
                 lm = lemma
                 if lm == '':
-                    '''
-                    ch = 0
-                    t = i - 1
-                    while ch == 0 and t >= 0:
-                        if lemmas[t] == '':
-                            t -= 1
-                        else:
-                            lm = lemmas[t]
-                            ch = 1
-                    '''
+                    # ch = 0
+                    # t = i - 1
+                    # while ch == 0 and t >= 0:
+                    #     if lemmas[t] == '':
+                    #         t -= 1
+                    #     else:
+                    #         lm = lemmas[t]
+                    #         ch = 1
                     if lm == '':
                         lms = re.findall(regex2, w)
                         #print(lms)
