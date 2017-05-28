@@ -22,7 +22,7 @@ def tfidf_model(classifier, path='data/metadata/dummies_train.csv', if_test='tra
 
 def bow_model(classifier, path='data/metadata/dummies_train.csv', if_test='train', stopwords_file=None):
 	stopwords = init_models.get_stopwords(stopwords_file)
-	count_vect = CountVectorizer(preprocessor=None, stop_words=stopwords)
+	count_vect = CountVectorizer(stop_words=stopwords, min_df=2)
 	results_df = init_models.init_model(classifier, count_vect, path, (lambda x: x == 'test')(if_test))
 
 	results_path = 'data/results/predicted_%s_%s_%s.csv' % (classifier, 'bow', if_test)

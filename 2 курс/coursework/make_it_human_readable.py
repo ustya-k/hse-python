@@ -8,11 +8,11 @@ def add_sequence(seq):
 def add_line(line, topics, if_test=False):
 	s = line.split(';')
 	s[-1] = s[-1][0]
-	new_line = s[0] + ';'
+	new_line = s[1] + ';'
 	true_topics = []
 	predicted_topics = []
 	for i, res in enumerate(s):
-		if i != 0:
+		if i > 1:
 			if '1' in res:
 				if 'pred' in topics[i]:
 					predicted_topics.append(topics[i].replace('_pred','').replace('_', ' '))
