@@ -122,6 +122,12 @@ def transform_sent(sent):
 	sent = re.sub('([а-яА-ЯЁёA-Za-z-]+)', '%s', sent)
 	new_words = change_words(words)
 	new_words = check_case(words, new_words)
+	empty = True
+	while empty:
+		try:
+			new_words.remove('')
+		except:
+			empty = False
 	new_sent = sent % tuple(new_words)
 	return new_sent
 
