@@ -24,7 +24,7 @@ def get_proper_new_word(ana, p, words, morph):
 		elif p in {'prepositions','pronouns'}:
 			return ana.word
 		#important for nouns
-		elif p == 'nouns':
+		elif p in 'nouns':
 			if ana.tag.gender == new_word_ana.tag.gender:
 				infl = set(str(ana.tag).split()[1].split(','))
 				if new_word_ana.inflect(infl):
@@ -34,11 +34,16 @@ def get_proper_new_word(ana, p, words, morph):
 			else:
 				new_word = None
 		elif p == 'verbs':
-			if ana.tag.POS == 'PRTS' and new_word.tag.transitivity == 'tran' and ana.tag.aspect == new_word_ana.tag.aspect:
+			if ana.tag.POS == 'PRTS' and new_word_ana.tag.transitivity == 'tran' and ana.tag.aspect == new_word_ana.tag.aspect:
 				infl = set(str(ana.tag).split()[1].split(','))
 				infl.add('PRTS')
 				infl.add(ana.tag.voice)
 				return new_word_ana.inflect(infl).word
+			elif ana.normal_form == 'быть' and 'futr' in ana.tag:
+				if new_word_ana.tag.transitivity == 'intr':
+					return ana.word + ' ' + new_word
+				else:
+					new_word = None
 			elif ana.tag.transitivity == new_word_ana.tag.transitivity and ana.tag.aspect == new_word_ana.tag.aspect:
 				if ana.tag.POS == 'INFN':
 					return new_word
@@ -50,7 +55,7 @@ def get_proper_new_word(ana, p, words, morph):
 					infl.add(ana.tag.voice)
 				if 'Impe' in ana.tag:
 					infl.add('3per')
-				if new_word_ana.inflect(infl):
+				elif new_word_ana.inflect(infl):
 					return new_word_ana.inflect(infl).word
 				else:
 					new_word = None
@@ -75,7 +80,7 @@ def get_proper_new_word(ana, p, words, morph):
 						return new_word_ana.inflect(infl).word
 					else:
 						new_word = None
-		elif p in {'conjunctions','particles','adverbs', 'interjections'}:
+		elif p in {'conjunctions','particles','adverbs', 'interjections', 'predicatives'}:
 			return new_word
 
 
@@ -114,7 +119,7 @@ def check_case(words1, words2):
 
 def transform_sent(sent):
 	words = [i.strip('.?!,"()1234567890$:%') for i in sent.split()]
-	sent = re.sub('([а-яА-ЯЁё-]+)', '%s', sent)
+	sent = re.sub('([а-яА-ЯЁёA-Za-z-]+)', '%s', sent)
 	new_words = change_words(words)
 	new_words = check_case(words, new_words)
 	new_sent = sent % tuple(new_words)
@@ -123,10 +128,8 @@ def transform_sent(sent):
 
 def main():
 	sent = input('input a sentence: ')
-	for i in range(15):
-		output_sent = transform_sent(sent)
-		print(output_sent)
-		output_sent = transform_sent(output_sent)
+	output_sent = transform_sent(sent)
+	print(output_sent)
 
 
 if __name__ == '__main__':
