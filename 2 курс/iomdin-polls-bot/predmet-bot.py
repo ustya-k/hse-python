@@ -8,8 +8,17 @@ import random
 import pandas as pd
 import re
 
+WEBHOOK_URL_BASE = "https://{}:{}".format(conf.WEBHOOK_HOST, conf.WEBHOOK_PORT)
+WEBHOOK_URL_PATH = "/{}/".format(conf.TOKEN)
 
-bot = telebot.TeleBot(conf.TOKEN)
+bot = telebot.TeleBot(conf.TOKEN, threaded=False)
+
+bot.remove_webhook()
+
+bot.set_webhook(url=WEBHOOK_URL_BASE+WEBHOOK_URL_PATH)
+
+app = flask.Flask(__name__)
+
 global new_question
 new_question = {"question_id": None,"name": None, "media": None, "question": None,"answers": None, "isOpen": None}
 
@@ -156,6 +165,22 @@ def get_question(chat_id):
 	else:
 		no_more_questions = 'Ура! Вы поучаствовали во всех опросах. Не хотите посмотреть статистику? /stats'
 		return None, no_more_questions, None, None
+
+
+@app.route('/', methods=['GET', 'HEAD'])
+def index():
+    return 'ok'
+
+
+@app.route(WEBHOOK_URL_PATH, methods=['POST'])
+def webhook():
+    if flask.request.headers.get('content-type') == 'application/json':
+        json_string = flask.request.get_data().decode('utf-8')
+        update = telebot.types.Update.de_json(json_string)
+        bot.process_new_updates([update])
+        return ''
+    else:
+        flask.abort(403)
 
 
 if __name__ == '__main__':
