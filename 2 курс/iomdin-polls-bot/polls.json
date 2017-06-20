@@ -1,5 +1,6 @@
 [
     {
+        "question_id": 0,
         "name": "Про карниз",
         "media": [
             "https://cs540100.userapi.com/c637830/v637830336/31093/OOCR_ccP-PQ.jpg"
@@ -13,6 +14,7 @@
         "isOpen": 1
     },
     {
+        "question_id": 1,
         "name": "Про перочистку",
         "media": [],
         "question": "Знаете ли вы слово «перочистка»?",
@@ -26,6 +28,7 @@
         "isOpen": 0
     },
     {
+        "question_id": 2,
         "name": "Про стиральную машину",
         "media": [
             "https://pp.userapi.com/c631221/v631221336/35d35/ru-U2mHR6vY.jpg"
@@ -39,6 +42,7 @@
         "isOpen": 1
     },
     {
+        "question_id": 3,
         "name": "Про меховой предмет одежды",
         "media": [
             "https://pp.userapi.com/c627831/v627831336/4c927/IBVEXT7gWfA.jpg"
@@ -59,6 +63,7 @@
         "isOpen": 0
     },
     {
+        "question_id": 4,
         "name": "Про дублёнку",
         "media": [
             "https://pp.userapi.com/c628330/v628330336/3528e/pSA2DgYDz3g.jpg"
@@ -73,6 +78,7 @@
         "isOpen": 0
     },
     {
+        "question_id": 5,
         "name": "Про куртки и пальто",
         "media": [
             "https://pp.userapi.com/c629130/v629130336/2ffbf/XeZh8XiT4D8.jpg"
@@ -87,6 +93,7 @@
         "isOpen": 0
     },
     {
+        "question_id": 6,
         "name": "Про френч",
         "media": [],
         "question": "Как вы произносите Р в слове «френч»?",
@@ -98,7 +105,8 @@
         "isOpen": 1
     },
     {
-        "name": "Про какназватьчтобынеповторитьсяипонятно",
+        "question_id": 7,
+        "name": "Про куртка-пальто-плащ",
         "media": [
             "https://pp.userapi.com/c630222/v630222336/ebcc/xE_jKp4WtLM.jpg"
         ],
@@ -111,6 +119,7 @@
         "isOpen": 0
     },
     {
+        "question_id": 8,
         "name": "Про татьянку",
         "media": [],
         "question": "Что для вас значит слово \"татьянка\"?",
@@ -120,11 +129,13 @@
             "прическа",
             "резьба по дереву",
             "юбка",
+            "знаю несколько значений",
             "не знаю ни одного значения"
         ],
         "isOpen": 1
     },
     {
+        "question_id": 9,
         "name": "Про перину",
         "media": [
             "https://pp.userapi.com/c633618/v633618336/6a75/Nnzs66expmc.jpg",
@@ -141,6 +152,7 @@
         "isOpen": 0
     },
     {
+        "question_id": 10,
         "name": "Про письменные принадлежности",
         "media": [
             "https://pp.userapi.com/c633630/v633630336/22eb/_nAMBB90SUE.jpg"
@@ -160,6 +172,7 @@
         "isOpen": 1
     },
     {
+        "question_id": 11,
         "name": "Про игрушки",
         "media": [
             "https://pp.userapi.com/c625424/v625424336/551e9/cXNwSBO9z-0.jpg",
@@ -177,6 +190,7 @@
         "isOpen": 1
     },
     {
+        "question_id": 12,
         "name": "Про качалку",
         "media": [
             "https://vk.com/doc17283336_426856654?hash=51ab574ab29d93d85b&dl=GEZDMOBQGEYDE:1496867745:0852d895cc8c6ac2f1&api=1&no_preview=1"
@@ -190,6 +204,50 @@
             "конёк",
             "лошадка",
             "шезлонг"
+        ],
+        "isOpen": 1
+    },
+    {
+        "question_id": 13,
+        "name": "Про вазочку",
+        "media": [
+            "https://pp.userapi.com/c623717/v623717336/455e3/IUO9TwRicLA.jpg",
+            "https://pp.userapi.com/c623717/v623717336/455ca/yR6GmuSqZAc.jpg",
+            "https://pp.userapi.com/c623717/v623717336/455d3/67niTkXnrSg.jpg",
+            "https://pp.userapi.com/c623717/v623717336/455dc/SMlEtTYASUE.jpg"
+        ],
+        "question": "Каким общим словом вы назовете предмет посуды, присутствующий на каждой из этих картинок?",
+        "answers": [
+            "вазочка",
+            "варенница",
+            "мисочка",
+            "пиала",
+            "пиалка",
+            "пиалушка",
+            "пиалошка",
+            "плошка",
+            "розетка",
+            "розеточка"
+        ],
+        "isOpen": 1
+    },
+    {
+        "question_id": 14,
+        "name": "Про тарелку",
+        "media": [
+            "https://pp.userapi.com/c623718/v623718336/45385/kuyLEWmFW4w.jpg",
+            "https://pp.userapi.com/c623718/v623718336/45374/JqM9mSu1YiQ.jpg",
+            "https://pp.userapi.com/c623718/v623718336/4538d/HXqKSe_t4LM.jpg",
+            "https://pp.userapi.com/c623718/v623718336/45395/S7NOjyHTR2Q.jpg"
+        ],
+        "question": "Если вам придется назвать эти предметы посуды одним словом (кроме самого слова «посуда»), как вы их назовете?",
+        "answers": [
+            "блюдце/блюдечко",
+            "миска/мисочка",
+            "пиала/пиалка/пиалушка/пиалошка",
+            "плошка",
+            "салатник/салатница",
+            "тарелка/тарелочка"
         ],
         "isOpen": 1
     }
