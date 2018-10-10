@@ -1,3 +1,8 @@
-https://yadi.sk/d/NpvZOlmOx5qAg
+This code creates corpus of articles from a website of a regional newspaper [UlanMedia](https://ulanmedia.ru)
+It includes:
+* crawling through article pages
+* downloading cleaned up aricle texts
+* morphological markup using [mystem](https://tech.yandex.ru/mystem) 
+* fetching meta info of the articles (date, topic, title, etc.)
 
-я чуть-чуть накосячила, это старая таблица со всеми метаданными в одну строчку https://yadi.sk/d/_8dA67brx3Q9Q
+Corpus is here https://yadi.sk/d/NpvZOlmOx5qAg
